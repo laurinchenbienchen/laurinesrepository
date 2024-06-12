@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book List</title>
+</head>
+<body>
+    <h1>Book List</h1>
+    <ul>
+        {% for book in books %}
+        <li>{{ book.title }} by {{ book.author }}
+            <form action="/delete/{{ book.id }}" method="post" style="display: inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="/add">Add a Book</a>
+</body>
+</html>
