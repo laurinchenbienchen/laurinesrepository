@@ -39,13 +39,16 @@ h2 {
 ul {
     list-style-type: none;
     padding: 0;
+    text-align: center;
 }
 
 ul li {
-    background-color: white;
+    display: inline-block;
+    background-color: #be8ec7;
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
+    width: auto;
 }
 
 a {
@@ -85,4 +88,8 @@ c {
     border: 5px solid #be8ec7;
     padding: 10px;
     border-radius: 20px;
+}
+
+.center{
+    text-align: -moz-center;
 }
