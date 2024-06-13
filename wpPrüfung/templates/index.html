@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book List</title>
     <link rel="stylesheet" href="../static/style.css">
 </head>
@@ -8,13 +10,19 @@
     <h1>Book List</h1>
     <ul>
         {% for book in books %}
-        <li>{{ book.title }} by {{ book.author }}
+        <li>
+            {% if book.image %}
+            <img src="{{ book.image }}" alt="{{ book.title }} cover" style="width:100px;height:auto;">
+            {% endif %}
+            <strong>{{ book.title }}</strong> by {{ book.author }}
             <form action="/delete/{{ book.id }}" method="post" style="display: inline;">
                 <button type="submit">Delete</button>
             </form>
         </li>
         {% endfor %}
     </ul>
-    <a class= "center" href="/add">Add a Book</a>
+    <div class="centered-link">
+        <a href="/add">Add a Book</a>
+    </div>
 </body>
 </html>

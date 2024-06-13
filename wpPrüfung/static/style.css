@@ -49,11 +49,13 @@ ul li {
     padding: 10px;
     border-radius: 5px;
     width: auto;
+    text-align: center;
 }
 
 a {
     color: blue;
     text-decoration: none;
+    text-align: center;
 }
 
 a:hover {
@@ -92,4 +94,21 @@ c {
 
 .center{
     text-align: -moz-center;
+}
+.centered-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.centered-link a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #be8ec7;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.centered-link a:hover {
+    background-color: #a06f;
 }
