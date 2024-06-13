@@ -141,3 +141,16 @@ input[type="text"] {
     border: 1px solid #ccc;
     border-radius: 3px;
 }
+
+.btn {
+    padding: 10px 15px;
+    background-color: #be8ec7;
+    color: white;
+    borer: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #a06f
+}
