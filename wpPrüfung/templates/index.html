@@ -14,7 +14,7 @@
             {% if book.image %}
             <img src="{{ book.image }}" alt="{{ book.title }} cover" style="width:100px;height:auto;">
             {% endif %}
-            <strong>{{ book.title }}</strong> by {{ book.author }}
+            <strong>{{ book.title }}</strong> by {{ book.author }} ({{ book.publisher }})
             <form action="/delete/{{ book.id }}" method="post" style="display: inline;">
                 <button type="submit">Delete</button>
             </form>
@@ -26,3 +26,5 @@
     </div>
 </body>
 </html>
+
+
