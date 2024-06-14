@@ -1,10 +1,13 @@
+import os
 import requests
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = '<KEY>'
 db = SQLAlchemy(app)
 
 
@@ -43,12 +46,19 @@ def fetch_book_info(title, author, publisher):
 # Routes
 @app.route('/')
 def index():
-    books = Book.query.all()
-    for book in books:
-        if not book.image:
-            book.image = fetch_book_info(book.title, book.author, book.publisher)
-            db.session.commit()
-    return render_template('index.html', books=books)
+    page = int(request.args.get('page', 1))
+    per_page = 5
+    search = request.args.get('search', '')
+
+    if search:
+        books = Book.query.filter(or_(Book.title.contains(search), Book.author.contains(search))) \
+                          .order_by(Book.title) \
+                          .paginate(page=page, per_page=per_page)
+    else:
+        books = Book.query.order_by(Book.title).paginate(page=page, per_page=per_page)
+
+    return render_template('index.html', books=books.items, page=page, pages=books.pages, search=search)
+
 
 
 @app.route('/add', methods=['GET', 'POST'])
