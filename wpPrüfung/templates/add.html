@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add a Book</title>
-    <link rel="stylesheet" href="../static/style.css">
+    <title>Add Book</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Add a Book</h1>
-    <form action="/add" method="post" class="form-inline">
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-        </div>
-        <div class="form-group">
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author" required>
-        </div>
-        <div class="form-group">
-            <label for="publisher">Publisher:</label>
-            <input type="text" id="publisher" name="publisher" required>
-        </div>
-        <button type="submit" class="btn">Add Book</button>
-    </form>
-    <a href="/">Back to Book List</a>
+    <div class="container">
+        <h1 class="my-4">Add a New Book</h1>
+        <form action="/add" method="post">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="publisher">Publisher:</label>
+                <input type="text" id="publisher" name="publisher" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success">Add Book</button>
+        </form>
+        <a href="/" class="btn btn-secondary mt-4">Back to Book List</a>
+    </div>
 </body>
 </html>
-

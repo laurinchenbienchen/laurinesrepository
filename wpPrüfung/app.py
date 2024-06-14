@@ -1,8 +1,10 @@
 import requests
 from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
+db = SQLAlchemy(app)
 # Dummy data
 books = [
     {'id': 1, 'title': 'Life of Puppets', 'author': 'T. J. Klune', 'publisher': 'Tor Books'},
@@ -10,6 +12,18 @@ books = [
      'publisher': 'Bloomsbury'},
     {'id': 3, 'title': 'Good Omens', 'author': 'Terry Pratchett', 'publisher': 'Gollancz'}
 ]
+
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    publisher = db.Column(db.String(100), nullable=False)
+    image = db.Column(db.String(200), nullable=True)
+
+    def __repr__(self):
+        return '<Book %r>' % self.title
+
 
 GOOGLE_BOOKS_API_KEY = 'AIzaSyCtbLZ2mMlyTfQG07Aiy4AAOQjFQ3iju40'
 
@@ -34,10 +48,9 @@ def fetch_book_info(title, author, publisher):
 # Routes
 @app.route('/')
 def index():
-    for book in books:
-        if 'image' not in book:
-            book['image'] = fetch_book_info(book['title'], book['author'], book['publisher'])
+    books = Book.query.all()
     return render_template('index.html', books=books)
+
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -46,19 +59,23 @@ def add_book():
         title = request.form['title']
         author = request.form['author']
         publisher = request.form['publisher']
-        book_id = len(books) + 1
         image = fetch_book_info(title, author, publisher)
-        books.append({'id': book_id, 'title': title, 'author': author, 'publisher': publisher, 'image': image})
+        new_book = Book(title=title, author=author, publisher=publisher, image=image)
+        db.session.add(new_book)
+        db.session.commit()
         return redirect(url_for('index'))
     return render_template('add.html')
 
 
 @app.route('/delete/<int:book_id>', methods=['POST'])
 def delete_book(book_id):
-    global books
-    books = [book for book in books if book['id'] != book_id]
+    book = Book.query.get_or_404(book_id)
+    db.session.delete(book)
+    db.session.commit()
     return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
