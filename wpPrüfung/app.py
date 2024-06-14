@@ -4,14 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-# Dummy data
-books = [
-    {'id': 1, 'title': 'Life of Puppets', 'author': 'T. J. Klune', 'publisher': 'Tor Books'},
-    {'id': 2, 'title': 'Harry Potter and the Philosopher\'s Stone', 'author': 'J. K. Rowling',
-     'publisher': 'Bloomsbury'},
-    {'id': 3, 'title': 'Good Omens', 'author': 'Terry Pratchett', 'publisher': 'Gollancz'}
-]
 
 
 class Book(db.Model):
@@ -21,9 +15,9 @@ class Book(db.Model):
     publisher = db.Column(db.String(100), nullable=False)
     image = db.Column(db.String(200), nullable=True)
 
-    def __repr__(self):
-        return '<Book %r>' % self.title
 
+with app.app_context():
+    db.create_all()
 
 GOOGLE_BOOKS_API_KEY = 'AIzaSyCtbLZ2mMlyTfQG07Aiy4AAOQjFQ3iju40'
 
@@ -36,6 +30,7 @@ def fetch_book_info(title, author, publisher):
         data = response.json()
         if 'items' in data and len(data['items']) > 0:
             book_info = data['items'][0]['volumeInfo']
+            print(f"Book info found: {book_info}")  # Debugging-Ausgabe
             image = book_info['imageLinks']['thumbnail'] if 'imageLinks' in book_info else None
             return image
     except requests.exceptions.RequestException as e:
@@ -49,8 +44,11 @@ def fetch_book_info(title, author, publisher):
 @app.route('/')
 def index():
     books = Book.query.all()
+    for book in books:
+        if not book.image:
+            book.image = fetch_book_info(book.title, book.author, book.publisher)
+            db.session.commit()
     return render_template('index.html', books=books)
-
 
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -69,13 +67,11 @@ def add_book():
 
 @app.route('/delete/<int:book_id>', methods=['POST'])
 def delete_book(book_id):
-    book = Book.query.get_or_404(book_id)
+    book = Book.query.get(book_id)
     db.session.delete(book)
     db.session.commit()
     return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
