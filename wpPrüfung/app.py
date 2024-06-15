@@ -43,12 +43,27 @@ def fetch_book_info(title, author, publisher):
 
 @app.route('/')
 def index():
-    books = Book.query.all()
+    search_query = request.args.get('q', '')
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+    books_query = Book.query
+
+    if search_query:
+        books_query = books_query.filter(
+            (Book.title.ilike(f"%{search_query}%")) |
+            (Book.author.ilike(f"%{search_query}%"))
+        )
+
+    total = books_query.count()
+    books = books_query.offset((page - 1) * per_page).limit(per_page).all()
+
     for book in books:
         if not book.image:
             book.image = fetch_book_info(book.title, book.author, book.publisher)
             db.session.commit()
-    return render_template('index.html', books=books)
+
+    return render_template('index.html', books=books, page=page, per_page=per_page, total=total,
+                           search_query=search_query)
 
 
 @app.route('/add', methods=['GET', 'POST'])
