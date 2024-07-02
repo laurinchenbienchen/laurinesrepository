@@ -2,17 +2,16 @@
 <html>
 <head>
     <title>Book List</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4 my-books">My Library</h1>
+        <h1 class="my-books-title">To be read - List</h1>
 
         <!-- Suchleiste -->
-        <form method="GET" action="{{ url_for('index') }}" class="form-inline mb-4">
+        <form method="GET" action="/" class="form-inline mb-4">
             <input type="text" name="q" class="form-control mr-sm-2" placeholder="Search by title or author" value="{{ search_query }}">
-            <button type="submit" class="btn btn-outline-success">Search</button>
+            <button type="submit" class="btn">Search</button>
         </form>
 
         <ul class="list-group">
@@ -27,9 +26,14 @@
                     <p>No image available</p>
                     {% endif %}
                 </div>
-                <form action="/delete/{{ book.id }}" method="post" class="mb-0">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                <div class="button-group">
+                    <!-- Bearbeiten-Button -->
+                    <a href="/edit/{{ book.id }}" class="btn edit-btn">Edit</a>
+                    <!-- Löschen-Formular -->
+                    <form action="/delete/{{ book.id }}" method="post" class="d-inline">
+                        <button type="submit" class="btn delete-btn">Delete</button>
+                    </form>
+                </div>
             </li>
             {% endfor %}
         </ul>
@@ -59,11 +63,10 @@
             </ul>
         </nav>
 
-        <a href="/add" class="btn btn-primary mt-4">Add a Book</a>
+        <!-- Button "Add a Book" -->
+        <div class="add-book-container">
+            <a href="/add" class="btn add-book-btn">Add a Book</a>
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
-

@@ -59,7 +59,8 @@ def index():
             book.image = fetch_book_info(book.title, book.author, book.publisher)
             db.session.commit()
 
-    return render_template('index.html', books=books, page=page, per_page=per_page, total=total, search_query=search_query)
+    return render_template('index.html', books=books, page=page, per_page=per_page, total=total,
+                           search_query=search_query)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_book():
@@ -74,6 +75,23 @@ def add_book():
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('add.html')
+
+
+@app.route('/edit/<int:book_id>', methods=['GET', 'POST'])
+def edit_book(book_id):
+    book = Book.query.get(book_id)
+    if not book:
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        book.title = request.form['title']
+        book.author = request.form['author']
+        book.publisher = request.form['publisher']
+        book.image = fetch_book_info(book.title, book.author, book.publisher)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    return render_template('edit.html', book=book)
 
 @app.route('/delete/<int:book_id>', methods=['POST'])
 def delete_book(book_id):

@@ -1,3 +1,4 @@
+/* Global styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
@@ -15,23 +16,23 @@ body {
     border-radius: 10px;
 }
 
-h2 {
-    color: lightskyblue;
-}
-
-h1 {
-    color: #594069;
+h1, h2 {
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
     background-color: #ffffff;
-    box-shadow: 0 0 10px rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     text-align: center;
-    border: 5px lightskyblue;
+    border: 5px solid #ab3588;
+}
+
+h1 {
+    color: #ab3588;
 }
 
 h2 {
+    color: lightskyblue;
     padding: 5px;
     border-radius: 10px;
 }
@@ -44,7 +45,7 @@ ul {
 
 ul li {
     display: inline-block;
-    background-color: #be8ec7;
+    background-color: rgba(203, 210, 211, 0.32);
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
@@ -53,7 +54,7 @@ ul li {
 }
 
 a {
-    color: blue;
+    color: #ab3588;
     text-decoration: none;
     text-align: center;
 }
@@ -80,11 +81,11 @@ c {
     margin-bottom: 10px;
 }
 
-.left{
+.left {
     text-align: left;
 }
 
-.profile_pic{
+.profile_pic {
     display: block;
     margin: 20px auto;
     border: 5px solid #be8ec7;
@@ -92,9 +93,10 @@ c {
     border-radius: 20px;
 }
 
-.center{
-    text-align: -moz-center;
+.center {
+    text-align: center;
 }
+
 .centered-link {
     text-align: center;
     margin-top: 20px;
@@ -119,7 +121,7 @@ form {
 
 .form-inline {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Änderung: Platz zwischen Elementen */
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 20px;
@@ -131,7 +133,7 @@ form {
     align-items: flex-start;
 }
 
-label{
+label {
     margin-bottom: 5px;
 }
 
@@ -146,18 +148,18 @@ input[type="text"] {
     padding: 10px 15px;
     background-color: #be8ec7;
     color: white;
-    borer: none;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #a06f
+    background-color: #a06f;
 }
 
 .my-books-title {
-    color: #ab3588; /* Change to your preferred color */
-    font-family: 'Arial, sans-serif'; /* Change to your preferred font */
+    color: #ab3588;
+    font-family: Arial, sans-serif;
     text-align: center;
 }
 
@@ -170,10 +172,49 @@ input[type="text"] {
     margin-right: 10px;
 }
 
-.pagination{
+.pagination {
     justify-content: center;
 }
 
 .form-inline .form-group {
     margin-right: 10px;
+}
+
+/* Angepasste Stile für Buttons */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* Buttons am rechten Rand ausrichten */
+}
+
+.button-group .btn {
+    margin-left: 10px; /* Abstand zwischen den Buttons */
+}
+
+/* Stile für spezifische Buttons */
+.edit-btn {
+    background-color: #FFA500; /* Orange */
+}
+
+.delete-btn {
+    background-color: #594069; /* Lila */
+}
+
+/* Stile für "Add a Book"-Button */
+.add-book-container {
+    display: flex;
+    justify-content: center; /* Zentriere den Button horizontal */
+    margin-top: 20px;
+}
+
+.add-book-btn {
+    padding: 10px 20px;
+    background-color: #be8ec7;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-book-btn:hover {
+    background-color: #a06f;
 }
