@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Playlist</h1>
+
+<!-- Search Bar -->
+<div class="text-center mb-4">
+    <form method="GET" class="form-inline justify-content-center">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" value="{{ request.args.get('query', '') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0 search-btn" type="submit">Search</button>
+    </form>
+</div>
+
+<ul class="list-group mb-4">
+    {% for song in songs %}
+        <li class="list-group-item d-flex align-items-center">
+            <img src="{{ song.cover_url }}" alt="Cover Image" width="100" height="100" class="mr-3">
+            <div class="flex-grow-1">
+                <strong>{{ song.title }}</strong> by {{ song.artist }}
+            </div>
+            <div>
+                <a href="{{ song.youtube_url }}" target="_blank" class="btn btn-sm btn-play mr-2">Play</a>
+                <a href="{{ url_for('edit_song', song_id=loop.index0 + page*3) }}" class="btn btn-sm btn-edit mr-2">Edit</a>
+                <form method="POST" action="{{ url_for('delete_song', song_id=loop.index0 + page*3) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-delete">Delete</button>
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if page > 0 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('index', page=page-1, query=query) }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% endif %}
+        {% for p in range(0, total_pages) %}
+            <li class="page-item {% if p == page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('index', page=p, query=query) }}">{{ p + 1 }}</a>
+            </li>
+        {% endfor %}
+        {% if page < total_pages - 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('index', page=page+1, query=query) }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="text-center">
+    <a href="{{ url_for('add_song') }}" class="btn btn-primary">Add Song</a>
+</div>
+{% endblock %}

@@ -1,7 +1,6 @@
 import unittest
 from app import app, db, Book
 
-
 class TestApp(unittest.TestCase):
 
     def setUp(self):
@@ -21,10 +20,10 @@ class TestApp(unittest.TestCase):
             db.drop_all()  # Löschen der Datenbanktabellen
 
     def test_index(self):
-        # Testen, ob die Index-Seite erfolgreich geladen wird und ob der Text 'Books' auf der Seite enthalten ist.
+        # Testen, ob die Index-Seite erfolgreich geladen wird und ob der Text 'To be read - List' auf der Seite enthalten ist.
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)  # Überprüfen, ob der HTTP-Statuscode 200 ist
-        self.assertIn(b'Books', response.data)  # Überprüfen, ob der Text 'Books' in der Antwort enthalten ist
+        self.assertIn(b'To be read - List', response.data)  # Überprüfen, ob der Text 'To be read - List' in der Antwort enthalten ist
 
     def test_add_book(self):
         # Testen des Hinzufügens eines neuen Buches über die '/add'-Route.
@@ -59,7 +58,6 @@ class TestApp(unittest.TestCase):
         with app.app_context():
             book = Book.query.get(book_id)  # Sucht das Buch in der Datenbank
             self.assertIsNone(book)  # Überprüfen, ob das Buch nicht mehr in der Datenbank vorhanden ist
-
 
 if __name__ == '__main__':
     unittest.main()  # Führt die Unit-Tests aus
