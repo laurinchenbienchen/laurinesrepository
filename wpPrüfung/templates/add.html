@@ -2,29 +2,39 @@
 <html>
 <head>
     <title>Add a Book</title>
+    <!-- einbinden von bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+     <!-- einbinden von eigener css datei-->
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <div class="container">
+        <!-- Überschrift für die Seite -->
         <h1 class="my-4 my-books">Add a Book</h1>
+        <!-- Formular zum Hinzufügen eines Buches -->
         <form method="POST" action="/add">
             <div class="form-group">
                 <label for="title">Title</label>
+                <!-- Eingabefeld für den Buchtitel -->
                 <input type="text" class="form-control" id="title" name="title" required>
             </div>
             <div class="form-group">
                 <label for="author">Author</label>
+                <!-- Eingabefeld für den Autor -->
                 <input type="text" class="form-control" id="author" name="author" required>
             </div>
             <div class="form-group">
                 <label for="publisher">Publisher</label>
+                <!-- Eingabefeld für den Verlag -->
                 <input type="text" class="form-control" id="publisher" name="publisher" required>
             </div>
+            <!-- Button zum Hinzufügen des Buchs -->
             <button type="submit" class="btn btn-primary">Add Book</button>
         </form>
+        <!-- Link zur Rückkehr zur Buchliste -->
         <a href="/" class="btn btn-secondary mt-4">Back to Book List</a>
     </div>
+    <!-- Einbinden der JavaScript-Bibliotheken -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

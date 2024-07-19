@@ -2,27 +2,46 @@
 <html>
 <head>
     <title>Book List</title>
+    <!-- Einbinden eines eigenen CSS -->
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <div class="container">
+        <!-- Überschrift für die Seite -->
         <h1 class="my-books-title">To be read - List</h1>
 
         <!-- Suchleiste -->
         <form method="GET" action="/" class="form-inline mb-4">
+            <!-- Eingabefeld für die Suchanfrage -->
             <input type="text" name="q" class="form-control mr-sm-2" placeholder="Search by title or author" value="{{ search_query }}">
+            <!-- Suchbutton -->
             <button type="submit" class="btn">Search</button>
         </form>
 
+        <!-- Sortier-Buttons -->
+        <div class="sort-buttons mb-4">
+            <form method="GET" action="/" class="form-inline">
+                <input type="hidden" name="q" value="{{ search_query }}">
+                <button type="submit" name="sort_by" value="title" class="btn {% if sort_by == 'title' %}active{% endif %}">Sort by Title</button>
+                <button type="submit" name="sort_by" value="author" class="btn {% if sort_by == 'author' %}active{% endif %}">Sort by Author</button>
+            </form>
+        </div>
+
+        <!-- Liste der Bücher -->
         <ul class="list-group">
             {% for book in books %}
+            <!-- Eintrag für jedes Buch -->
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
+                    <!-- Titel des Buchs -->
                     <h5>{{ book.title }}</h5>
+                     <!-- Autor des Buchs -->
                     <p>by {{ book.author }}</p>
+                    <!-- Optionales Buchbild -->
                     {% if book.image %}
                     <img src="{{ book.image }}" alt="{{ book.title }}" class="img-thumbnail" style="height: 100px;">
                     {% else %}
+                    <!-- Hinweis bei fehlendem Bild -->
                     <p>No image available</p>
                     {% endif %}
                 </div>
@@ -42,20 +61,23 @@
         <nav aria-label="Page navigation" class="mt-4">
             <ul class="pagination">
                 {% if page > 1 %}
+                <!-- Vorherige Seite -->
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('index', page=page-1, q=search_query) }}" aria-label="Previous">
+                    <a class="page-link" href="{{ url_for('index', page=page-1, q=search_query, sort_by=sort_by) }}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 {% endif %}
                 {% for p in range(1, (total // per_page) + 2) %}
+                <!-- Seitennummerierung -->
                 <li class="page-item {% if p == page %}active{% endif %}">
-                    <a class="page-link" href="{{ url_for('index', page=p, q=search_query) }}">{{ p }}</a>
+                    <a class="page-link" href="{{ url_for('index', page=p, q=search_query, sort_by=sort_by) }}">{{ p }}</a>
                 </li>
                 {% endfor %}
                 {% if page < (total // per_page) + 1 %}
+                <!-- Nächste Seite -->
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('index', page=page+1, q=search_query) }}" aria-label="Next">
+                    <a class="page-link" href="{{ url_for('index', page=page+1, q=search_query, sort_by=sort_by) }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
